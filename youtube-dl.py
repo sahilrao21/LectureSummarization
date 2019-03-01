@@ -12,6 +12,9 @@ cookies = input("Cookies Text File Name:\n\t")
 cookies = "cookies.txt" if cookies.lower()=='' else cookies
 flag = input("Download Videos? y/n\n\t")
 flag = True if flag.lower()=='y' else False
+if flag:
+    audio = input("Audio? This will take longer to download y/n:\n\t")
+    audio = '22' if audio.lower() == 'y' else '135'
 links = [x.strip() for x in links.split(',')]
 
 for link in links:
@@ -20,7 +23,8 @@ for link in links:
                                  shell=True, stderr=STDOUT)
     if "unable to download video subtitles" in str(rv):
         check_output('youtube-dl --write-auto-sub --cookies {} --skip-download {}'.format(cookies, link), shell=True)
+
     # Download Video if user asked for it
     if flag:
-        system('youtube-dl -f 135 --cookies {} {}'.format(cookies, link))
+        system('youtube-dl -f {} --cookies {} {}'.format(audio, cookies, link))
 
