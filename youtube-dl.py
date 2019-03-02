@@ -19,11 +19,8 @@ links = [x.strip() for x in links.split(',')]
 
 for link in links:
     # Download Subtitles
-    rv = check_output('youtube-dl --write-sub --cookies {} --skip-download {}'.format(cookies, link),
-                                 shell=True, stderr=STDOUT)
-    if "unable to download video subtitles" in str(rv):
-        check_output('youtube-dl --write-auto-sub --cookies {} --skip-download {}'.format(cookies, link), shell=True)
-
+    system('youtube-dl --write-auto-sub --cookies {} --skip-download {}'.format(cookies, link))
+    
     # Download Video if user asked for it
     if flag:
         system('youtube-dl -f {} --cookies {} {}'.format(audio, cookies, link))
