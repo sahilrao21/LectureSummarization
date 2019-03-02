@@ -105,3 +105,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+cookies.txt
+.idea/
+*.mp4
+*.vtt
