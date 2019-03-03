@@ -3,7 +3,8 @@ from nltk.corpus import stopwords
 from string import punctuation
 
 def summary_length(text, n):
-    num_of_sentences = len(sent_tokenize(text))
+    num_of_sentences = len(sent_tokenize(text, "english"))
+
     return int(n * num_of_sentences)
 
 

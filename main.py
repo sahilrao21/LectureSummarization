@@ -36,7 +36,7 @@ def props():
 @app.route("/transcript", methods=['POST'])
 def transcript():
     link_again = summ.the_link
-    the_props = request.form['proportion']
+    the_props = float(request.form['proportion'])
     tuple = dl_youtube.video_download(link_again, 22)
     vtt = tuple[1]
     video = tuple[0]
