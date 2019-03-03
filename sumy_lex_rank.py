@@ -13,6 +13,7 @@ def lex_rank_summarizer(file):
     text = open(file, 'r').read()
     chosen_sentences = summarizer(parser.document, model_utilities.summary_length(text, 0.40))
 
+
     summary = ""
     for sentence_tuple in chosen_sentences:
         line = ""
