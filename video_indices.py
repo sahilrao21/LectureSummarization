@@ -1,7 +1,6 @@
 import webvtt
 from nltk.tokenize import sent_tokenize, word_tokenize
 
-
 """
 Input: 
 Name of subtitle file - 1qy9xVEOI40_auto.en.vtt
@@ -10,35 +9,6 @@ tolerance is the difference (in seconds) between two sequential timestamp tuples
 
 Output: List of timestamp tuples (start, end) for the summarized video
 """
-# def video_indices(subtitle, text_summary, tolerance=0):
-#     text_summary = open(text_summary, "r").read()
-#     sents = [word_tokenize(s.lower()) for s in sent_tokenize(text_summary)]
-#     captions = webvtt.read(subtitle)
-#     coptions = webvtt.read(subtitle)
-#     cuttimes = []
-#     for sent in sents[-5:]:
-#         beg = ' '.join(sent[:3])
-#         last = ' '.join(sent[-4:-1])
-#         for i, caption in enumerate(captions):
-#             captext = caption.text.replace("\n", " ")
-#             captext = filter_captext(captext)
-#             if beg in captext:
-#                 start = caption.start
-#                 break
-#
-#         for coption in coptions:
-#             captext = coption.text.replace("\n", " ")
-#             captext = filter_captext(captext)
-#             if last in captext:
-#                 s, e = time_in_s([start, coption.end])
-#                 if e-s>0:
-#                     end = coption.end
-#                     break
-#         cuttimes.append([start, end])
-#         break
-#
-#     return cuttimes
-
 def video_indices(subtitle, text_summary, tolerance=0):
     text_summary = open(text_summary, "r").read()
     sents = [word_tokenize(s.lower()) for s in sent_tokenize(text_summary)]
@@ -139,5 +109,3 @@ if __name__ == "__main__":
         print(e-s)
     print(count)
     print(total_time(cuttimes))
-# if __name__ == "__main__":
-#     video_indices("1qy9xVEOI40_auto.en.vtt","1qy9xVEOI40_sum.txt")
