@@ -17,8 +17,8 @@ def sumy_lex(file):
 
 
 url = "https://www.youtube.com/watch?v=svW3I0cqfpw"
-vtt = dl_youtube.video_download(url, 22)
+vtt = dl_youtube.video_download(url, 22)[1]
 trans = transcript_of_captions.generate_transcript(vtt)
-file = transcript_of_captions.populate_file(trans)
+#file = transcript_of_captions.populate_file(trans)
 
-sumy_lex(file)
+sumy_lex()
