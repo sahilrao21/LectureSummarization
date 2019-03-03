@@ -10,15 +10,10 @@ def search_home():
 @app.route("/transcript", methods=['POST'])
 def transcript():
     the_link = request.form['link']
-    # the_cookies = request.form['cookies']
-    # video_yn = request.form['download_video']
-    # audio_yn = request.form['download_audio']
     vtt = dl_youtube.video_download(the_link, 22)
     the_transcript = transcript_of_captions.generate_transcript(vtt)
-
-    return render_template("transcript.html", transc=the_transcript)
-
-
+    txt_file = transcript_of_captions.populate_file(the_transcript)
+    return render_template("transcript.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
