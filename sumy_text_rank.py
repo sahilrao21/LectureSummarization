@@ -27,6 +27,6 @@ url = "https://www.youtube.com/watch?v=1qy9xVEOI40"
 vtt = dl_youtube.video_download(url, 22)[1]
 file = puncuator.punctuate_transcript(vtt)
 
-file.open("text_rank_summary.txt", "w+")
-file.write(text_rank_summarizer(file))
-file.close()
+#with open("text_rank_summary.txt", "w+") as text_rank_summary_file:
+#    text_rank_summary_file.write(text_rank_summarizer(file))
+print(text_rank_summarizer(file))
