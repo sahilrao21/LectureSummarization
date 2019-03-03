@@ -6,12 +6,17 @@ rv = check_output('pip install youtube-dl', shell=True)
 if "Requirement already satisfied" in str(rv):
     check_output("pip install --upgrade youtube-dl", shell=True)
 
-
 """
 Downloads the video and associated subtitle, and returns the file name as a tuple
+
+Input:
 link(str): Youtube video link, e.g: https://www.youtube.com/watch?v=zbf3ILq9IJs
 video(False/int): False if don't want video, 22 if want audio, 135 if not
 cookies(str): filename of cookies file. Default is cookies.txt
+
+Output:
+Tuple in the format (video file, subtitle file). Will return (None, subtitle file) if video is not selected, and 
+subtitle_auto if the subtitles are auto generated.
 """
 def video_download(link, video, cookies="cookies.txt"):
     # Download Subtitles
