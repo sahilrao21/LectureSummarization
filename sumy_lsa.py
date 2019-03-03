@@ -27,6 +27,6 @@ url = "https://www.youtube.com/watch?v=1qy9xVEOI40"
 vtt = dl_youtube.video_download(url, 22)[1]
 file = puncuator.punctuate_transcript(vtt)
 
-file.open("lsa_summary.txt", "w+")
-file.write(lsa_summarizer(file))
-file.close()
+#with open("lsa_summary.txt", "w+") as lsa_summary_file:
+#    lsa_summary_file.write(lsa_summarizer(file))
+print(lsa_summarizer(file))

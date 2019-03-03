@@ -22,9 +22,11 @@ def lex_rank_summarizer(file):
 
     return summary
 
+
 url = "https://www.youtube.com/watch?v=1qy9xVEOI40"
 vtt = dl_youtube.video_download(url, 22)[1]
 file = puncuator.punctuate_transcript(vtt)
 
-with open("lex_rank_summary.txt", "w+") as summary_file:
-    summary_file.write(lex_rank_summarizer(file))
+#with open("lex_rank_summary.txt", "w+") as lex_rank_summary_file:
+#    lex_rank_summary_file.write(lex_rank_summarizer(file))
+print(lex_rank_summarizer(file))
