@@ -11,7 +11,7 @@ def lex_rank_summarizer(file, props=0.40):
     summarizer = LexRankSummarizer()
 
     text = open(file, 'r').read()
-    chosen_sentences = summarizer(parser.document, model_utilities.sent_tokenize(text, props))
+    chosen_sentences = summarizer(parser.document, model_utilities.summary_length(text, props))
 
     summary = ""
     for sentence_tuple in chosen_sentences:

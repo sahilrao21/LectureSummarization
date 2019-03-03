@@ -42,7 +42,6 @@ def transcript():
     video = tuple[0]
     file = punctuate_transcript(vtt)
     with open(file[:-4] + "_sum.txt", "w+") as lex_rank_summary_file:
-        print(1)
         lex_rank_summary_file.write(sumy_lex_rank.lex_rank_summarizer(file, the_props))
     times = video_indices.video_indices(vtt, file[:-4] + "_sum.txt")
     final = edit_video.edit_summarized_video(video, times)
