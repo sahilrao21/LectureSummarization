@@ -32,6 +32,4 @@ if __name__ == "__main__":
     file = puncuator.punctuate_transcript(vtt)
     with open(file[:-4]+"_sum.txt", "w+") as lex_rank_summary_file:
         lex_rank_summary_file.write(lex_rank_summarizer(file))
-
-
-    # print(PlaintextParser.from_file(vtt, Tokenizer('english')).document.sentences)
+        
