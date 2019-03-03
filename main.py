@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-import youtube_dl
+import dl_youtube
 import transcript_of_captions
 
 app = Flask(__name__)
@@ -13,10 +13,10 @@ def transcript():
     # the_cookies = request.form['cookies']
     # video_yn = request.form['download_video']
     # audio_yn = request.form['download_audio']
-    vtt = youtube_dl.video_download(the_link, 22)
+    vtt = dl_youtube.video_download(the_link, 22)
     the_transcript = transcript_of_captions.generate_transcript(vtt)
 
-    return render_template("transcript.html")
+    return render_template("transcript.html", transc=the_transcript)
 
 
 
