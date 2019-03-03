@@ -9,10 +9,10 @@ if "Requirement already satisfied" in str(rv):
 def video_download(links, video, cookies="cookies.txt"):
     for link in links:
         # Download Subtitles
-        rv = check_output('youtube-dl --write-auto-sub --cookies {} --output "$(id)s_auto.%(ext)s" --skip-download {}'
+        rv = check_output('youtube-dl --write-sub --cookies {} --output "%(id)s.%(ext)s" --skip-download {}'
                      .format(cookies, link), shell=True, stderr=STDOUT)
         if "unable to download video subtitles" in str(rv):
-            check_output('youtube-dl --write-auto-sub --cookies {} --output "$(id)s_auto.%(ext)s" --skip-download {}'
+            check_output('youtube-dl --write-auto-sub --cookies {} --output "%(id)s_auto.%(ext)s" --skip-download {}'
                      .format(cookies, link), shell=True)
     
         # Download Video if user asked for it
