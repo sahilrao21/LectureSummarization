@@ -1,7 +1,6 @@
 import webvtt
 from nltk.tokenize import sent_tokenize, word_tokenize
 
-
 """
 Input: 
 Name of subtitle file - 1qy9xVEOI40_auto.en.vtt
@@ -14,31 +13,27 @@ def video_indices(subtitle, text_summary, tolerance=0):
     text_summary = open(text_summary, "r").read()
     sents = [word_tokenize(s.lower()) for s in sent_tokenize(text_summary)]
     captions = webvtt.read(subtitle)
-    coptions = webvtt.read(subtitle)
     cuttimes = []
-    for sent in sents[-5:]:
-        beg = ' '.join(sent[:3])
-        last = ' '.join(sent[-4:-1])
+    for sent in sents:
+        beg = ' '.join(sent[:5])
+        last = ' '.join(sent[-6:-1])
         for i, caption in enumerate(captions):
             captext = caption.text.replace("\n", " ")
             captext = filter_captext(captext)
             if beg in captext:
                 start = caption.start
+                for j, cap in enumerate(captions):
+                    if i>j:
+                        continue
+                    captext = cap.text.replace("\n", " ")
+                    captext = filter_captext(captext)
+                    if last in captext:
+                        end = caption.end
+                        break
+                timestamp = [start, end]
+                cuttimes.append([min(timestamp, key=time_for_one), max(timestamp, key=time_for_one)])
                 break
-
-        for coption in coptions:
-            captext = coption.text.replace("\n", " ")
-            captext = filter_captext(captext)
-            if last in captext:
-                s, e = time_in_s([start, coption.end])
-                if e-s>0:
-                    end = coption.end
-                    break
-        cuttimes.append([start, end])
-        break
-
-    return cuttimes
-
+    return cutttimes_filter(cuttimes, 10, 1000)
 
 def tolerance_manager(cuttimes, tolerance):
     pstart=float("-inf")
@@ -52,12 +47,12 @@ def tolerance_manager(cuttimes, tolerance):
         if cstart-pend<=tolerance:
             flag=True
             newcuttimes.append([pstart, cend])
-            pstart, pend=0
+            pstart, pend=0,0
         else:
             newcuttimes.append([pstart, pend])
             pstart, pend = cstart, cend
     if pstart and pend:
-        newcuttimes.append()
+        newcuttimes.append([pstart, pend])
 
     if flag==True:
         return tolerance_manager(newcuttimes, tolerance)
@@ -81,10 +76,20 @@ def time_in_s(clip):
         e+=float(end[i])*pow(60, 2-i)
     return s, e
 
-    return cuttimes
-    # for caption in webvtt.read(subtitle)[:100]:
-    #     print(caption.start)
-    #     print(caption.text)
+def time_for_one(timestamp):
+    timestamp = timestamp.split(':')
+    a = 0
+    for i in range(3):
+        a+=float(timestamp[i])*pow(60, 2-i)
+    return a
+
+def cutttimes_filter(cuttimes, min_length=10, max_length=1000):
+    new_cuttimes=[]
+    for clip in cuttimes:
+        s, e = time_in_s(clip)
+        if e-s>min_length and e-s<max_length:
+            new_cuttimes.append(clip)
+    return new_cuttimes
 
 def filter_captext(captext):
     apos = captext.find("'")
@@ -104,5 +109,3 @@ if __name__ == "__main__":
         print(e-s)
     print(count)
     print(total_time(cuttimes))
-# if __name__ == "__main__":
-#     video_indices("1qy9xVEOI40_auto.en.vtt","1qy9xVEOI40_sum.txt")

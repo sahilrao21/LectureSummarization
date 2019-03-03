@@ -26,10 +26,10 @@ def lex_rank_summarizer(file, props=0.40):
     return summary
 
 
+#testing
 if __name__ == "__main__":
     url = "https://www.youtube.com/watch?v=1qy9xVEOI40"
     vtt = dl_youtube.video_download(url, 22)[1]
     file = puncuator.punctuate_transcript(vtt)
     with open(file[:-4]+"_sum.txt", "w+") as lex_rank_summary_file:
         lex_rank_summary_file.write(lex_rank_summarizer(file))
-        
