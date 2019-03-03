@@ -2,25 +2,20 @@ from sumy.parsers.plaintext import PlaintextParser
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.summarizers.lex_rank import LexRankSummarizer
 import dl_youtube
-import transcript_of_captions
+import puncuator
 
-
-def sumy_lex(inp):
-    file = inp
-    parser = PlaintextParser.from_file("transcript3.txt", Tokenizer("english"))
+def sumy_lex(file):
+    parser = PlaintextParser.from_file(file, Tokenizer("english"))
     summarizer = LexRankSummarizer()
 
-    summary = summarizer(parser.document, 10)
+    # Potential optimization
+    summary = summarizer(parser.document, 40)
 
     for sentence in summary:
         print(sentence)
 
 
-urll = "https://www.youtube.com/watch?v=svW3I0cqfpw"
-vttt = dl_youtube.video_download(urll, 22)
-trans = transcript_of_captions.generate_transcript(vttt)
-# file = transcript_of_captions.populate_file(trans)
-summary = sumy_lex(trans)
-
-print(summary)
-
+url = "https://www.youtube.com/watch?v=LERtLI2h_nQ"
+vtt = dl_youtube.video_download(url, False, 22)[1]
+file = puncuator.punctuate_transcript(vtt)
+sumy_lex(file)
