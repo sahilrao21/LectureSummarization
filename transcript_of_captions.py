@@ -57,6 +57,4 @@ def ignore_names(text):
             break
 
     name = reverse_name[::-1]
-
     return text[:text.find(name)] + ignore_names(text[colon_index + 2:])
-
