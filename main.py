@@ -11,6 +11,7 @@ def search_home():
 @app.route("/transcript", methods=['POST'])
 def transcript():
     the_link = request.form['link']
+
     percentage_size = float(request.form['proportion'])
     # the_cookies = request.form['cookies']
     # video_yn = request.form['download_video']
@@ -23,6 +24,9 @@ def transcript():
     return redirect(os.getcwd()+vtt)
 
 
+    # the_transcript = transcript_of_captions.generate_transcript(vtt)
+    # txt_file = transcript_of_captions.populate_file(the_transcript)
+    return render_template("transcript.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
