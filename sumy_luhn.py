@@ -11,10 +11,16 @@ def luhn_summarizer(file):
     summarizer = LuhnSummarizer()
 
     text = open(file, 'r').read()
-    summary = summarizer(parser.document, model_utilities.summary_length(text))
+    chosen_sentences = summarizer(parser.document, model_utilities.summary_length(text))
 
-    for sentence in summary:
-        print(sentence)
+    summary = ""
+    for sentence_tuple in chosen_sentences:
+        line = ""
+        for word in sentence_tuple.words:
+            line += word + " "
+        summary += line
+
+    return summary
 
 
 url = "https://www.youtube.com/watch?v=1qy9xVEOI40"

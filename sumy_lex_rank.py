@@ -11,16 +11,20 @@ def lex_rank_summarizer(file):
     summarizer = LexRankSummarizer()
 
     text = open(file, 'r').read()
-    summary = summarizer(parser.document, model_utilities.summary_length(text))
+    chosen_sentences = summarizer(parser.document, model_utilities.summary_length(text))
 
-    for sentence in summary:
-        print(sentence)
+    summary = ""
+    for sentence_tuple in chosen_sentences:
+        line = ""
+        for word in sentence_tuple.words:
+            line += word + " "
+        summary += line
 
+    return summary
 
 url = "https://www.youtube.com/watch?v=1qy9xVEOI40"
 vtt = dl_youtube.video_download(url, 22)[1]
 file = puncuator.punctuate_transcript(vtt)
 
-file = open("lex_rank_summary.txt", "w+")
-file.write(lex_rank_summarizer(file))
-file.close()
+with open("lex_rank_summary.txt", "w+") as summary_file:
+    summary_file.write(lex_rank_summarizer(file))
