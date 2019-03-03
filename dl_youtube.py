@@ -15,13 +15,13 @@ cookies(str): filename of cookies file. Default is cookies.txt
 """
 def video_download(link, video, cookies="cookies.txt"):
     # Download Subtitles
-    id = link[link.find("watch?v=") + 8:]
+    linkid = link[link.find("watch?v=") + 8:]
 
-    subtitle = id+".en.vtt"
+    subtitle = linkid+".en.vtt"
     rv = check_output('youtube-dl --write-sub --cookies {} --output "%(id)s.%(ext)s" --skip-download {}'
                      .format(cookies, link), shell=True, stderr=STDOUT)
     if "unable to download video subtitles" in str(rv):
-        subtitle = id+"_auto.en.vtt"
+        subtitle = linkid+"_auto.en.vtt"
         check_output('youtube-dl --write-auto-sub --cookies {} --output "%(id)s_auto.%(ext)s" --skip-download {}'
                      .format(cookies, link), shell=True)
     
@@ -29,11 +29,9 @@ def video_download(link, video, cookies="cookies.txt"):
     if video:
         system('youtube-dl -f {} --cookies {} --output "%(id)s.%(ext)s" {}'.format(video, cookies, link))
 
-    return (id+".mp4", subtitle) if video else (None, subtitle)
+    return (linkid+".mp4", subtitle) if video else (None, subtitle)
 
-
-
-if __name__=="__main__":
+if __name__ == "__main__":
     # get input
     links = input("Video Links (comma separated):\n\t")
     links = [x.strip() for x in links.split(',')]
@@ -46,5 +44,4 @@ if __name__=="__main__":
         video = '22' if audio.lower() == 'y' else '135'
     for link in links:
         print(video_download(link, video, cookies))
-
 

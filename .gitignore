@@ -1,9 +1,5 @@
 # Ignore transcript file
-transcript.txt
 *.txt
-
-# Ignore other files in master
-youtube-dl.py
 
 # Ignore Mac DS_Store files
 .DS_Store
