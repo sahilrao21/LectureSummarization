@@ -14,35 +14,88 @@ def video_indices(subtitle, text_summary, tolerance=0):
     text_summary = open(text_summary, "r").read()
     sents = [word_tokenize(s.lower()) for s in sent_tokenize(text_summary)]
     captions = webvtt.read(subtitle)
+    coptions = webvtt.read(subtitle)
     cuttimes = []
-    for sent in sents:
-        beg = ' '.join(sent[:5])
-        last = ' '.join(sent[-6:-1])
-        flag = True
+    for sent in sents[-5:]:
+        beg = ' '.join(sent[:3])
+        last = ' '.join(sent[-4:-1])
         for i, caption in enumerate(captions):
             captext = caption.text.replace("\n", " ")
             captext = filter_captext(captext)
             if beg in captext:
                 start = caption.start
-                for caption in captions[i:]:
-                    captext = caption.text.replace("\n", " ")
-                    captext = filter_captext(captext)
-                    if last in captext:
-                        end = caption.end
-                        break
-                cuttimes.append([start, end])
                 break
+        for coption in coptions:
+            captext = coption.text.replace("\n", " ")
+            captext = filter_captext(captext)
+            if last in captext:
+                s, e = time_in_s([start, coption.end])
+                if e-s>0:
+                    end = coption.end
+                    break
+        cuttimes.append([start, end])
+        break
+
+    return cuttimes
 
 
 def tolerance_manager(cuttimes, tolerance):
-    pass
+    pstart=float("-inf")
+    pend=float("-inf")
+    cstart=0
+    cend=0
+    newcuttimes=[]
+    flag=False
+    for clip in cuttimes:
+        cstart, cend = time_in_s(clip)
+        if cstart-pend<=tolerance:
+            flag=True
+            newcuttimes.append([pstart, cend])
+            pstart, pend=0
+        else:
+            newcuttimes.append([pstart, pend])
+            pstart, pend = cstart, cend
+    if pstart and pend:
+        newcuttimes.append()
+
+    if flag==True:
+        return tolerance_manager(newcuttimes, tolerance)
+    return newcuttimes
+
+
+def total_time(cuttimes):
+    tot = 0
+    for clip in cuttimes:
+        s, e = time_in_s(clip)
+        tot+= e-s
+    return tot
+
+def time_in_s(clip):
+    start = clip[0].split(':')
+    end = clip[1].split(':')
+    s = 0
+    e = 0
+    for i in range(3):
+        s+=float(start[i])*pow(60, 2-i)
+        e+=float(end[i])*pow(60, 2-i)
+    return s, e
+
 
 def filter_captext(captext):
     apos = captext.find("'")
-    if apos!=-1:
+    if apos!=-1 and captext[apos+1]=='s':
         captext = captext[:apos] + captext[apos+2:]
         return filter_captext(captext)
     return captext
 
 if __name__ == "__main__":
-    video_indices("1qy9xVEOI40_auto.en.vtt","1qy9xVEOI40_sum.txt")
+    cuttimes = video_indices("1qy9xVEOI40_auto.en.vtt","1qy9xVEOI40_sum.txt")
+    print(cuttimes)
+    count=0
+    for clip in cuttimes:
+        s, e = time_in_s(clip)
+        if e-s<=0:
+            count+=1
+        print(e-s)
+    print(count)
+    print(total_time(cuttimes))

@@ -30,9 +30,6 @@ def lex_rank_summarizer(file):
 if __name__ == "__main__":
     url = "https://www.youtube.com/watch?v=1qy9xVEOI40"
     vtt = dl_youtube.video_download(url, 22)[1]
-    # file = puncuator.punctuate_transcript(vtt)
-    #
-    # with open(file[:-4]+"_sum.txt", "w+") as lex_rank_summary_file:
-    #     lex_rank_summary_file.write(lex_rank_summarizer(file))
-
-    print(PlaintextParser.from_file(vtt, Tokenizer('english')).document.sentences)
+    file = puncuator.punctuate_transcript(vtt)
+    with open(file[:-4]+"_sum.txt", "w+") as lex_rank_summary_file:
+        lex_rank_summary_file.write(lex_rank_summarizer(file))
