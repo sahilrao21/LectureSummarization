@@ -1,3 +1,7 @@
+# Ignore transcript file
+transcript.txt
+*.txt
+
 # Ignore other files in master
 youtube-dl.py
 

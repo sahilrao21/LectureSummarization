@@ -9,8 +9,13 @@ def generate_transcript(file):
     vtt = webvtt.read(file)
     captions = sum([c.text.strip().splitlines() for c in vtt], [])
 
-    captions_of_lecture = list(map(ignore_descriptions, captions))
+    brackets = ("[", "]")
+    parenthesis = ("(", ")")
+
+    captions_of_lecture = list(map(lambda text: ignore_descriptions(text, brackets), captions))
+    captions_of_lecture = list(map(lambda text: ignore_descriptions(text, parenthesis), captions_of_lecture))
     captions_of_lecture = list(map(ignore_names, captions_of_lecture))
+
     transcript = ""
     prev_cap = ""
 
@@ -24,15 +29,15 @@ def generate_transcript(file):
 
     return transcript
 
-def ignore_descriptions(text):
+def ignore_descriptions(text, open_and_close_symbols):
     """Taking out information in brackets that are auto-generated."""
-    start_index = text.find("[")
-    end_index = text.find("]")
+    start_index = text.find(open_and_close_symbols[0])
+    end_index = text.find(open_and_close_symbols[1])
 
     if start_index == -1 or end_index == -1:
         return text
 
-    return text[: start_index] + ignore_descriptions(text[end_index + 2:])
+    return text[: start_index] + ignore_descriptions(text[end_index + 2:], open_and_close_symbols)
 
 def ignore_names(text):
     """Ignore captions that give the name of the speaker."""
@@ -54,3 +59,8 @@ def ignore_names(text):
     name = reverse_name[::-1]
 
     return text[:text.find(name)] + ignore_names(text[colon_index + 2:])
+
+def populate_file(transcript):
+    file = open("transcript.txt", "w+")
+    file.write(transcript)
+    file.close()
