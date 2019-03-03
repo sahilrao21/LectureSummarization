@@ -4,7 +4,7 @@ def generate_transcript(file):
     """Generates the transcript of a given .vtt file."""
     if len(file) < 4 or file[-4:] != ".vtt":
         print("Error: non .vtt file passed in.")
-        return 0
+        return ""
 
     vtt = webvtt.read(file)
     captions = sum([c.text.strip().splitlines() for c in vtt], [])
@@ -31,12 +31,8 @@ def ignore_descriptions(text):
 
     if start_index == -1 or end_index == -1:
         return text
-    elif start_index == 0:
-        return ignore_descriptions(text[end_index + 1:])
-    elif start_index == 0 and end_index == len(text) - 1:
-        return ""
-    else:
-        return text[: start_index - 1] + ignore_descriptions(text[end_index + 1:])
+
+    return text[: start_index] + ignore_descriptions(text[end_index + 2:])
 
 def ignore_names(text):
     """Ignore captions that give the name of the speaker."""
