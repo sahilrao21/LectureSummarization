@@ -3,6 +3,7 @@ from sumy.nlp.tokenizers import Tokenizer
 from sumy.summarizers.lex_rank import LexRankSummarizer
 import dl_youtube
 import puncuator
+import model_utilities
 
 def sumy_lex(file):
     parser = PlaintextParser.from_file(file, Tokenizer("english"))
@@ -10,7 +11,7 @@ def sumy_lex(file):
 
     # Potential optimization
     text = open(file, 'r').read()
-    summary = summarizer(parser.document, summary_length(text))
+    summary = summarizer(parser.document, model_utilities.summary_length(text))
 
     for sentence in summary:
         print(sentence)
