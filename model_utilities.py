@@ -4,7 +4,7 @@ from string import punctuation
 
 def summary_length(text, n):
     num_of_sentences = len(sent_tokenize(text))
-    return n * num_of_sentences
+    return int(n * num_of_sentences)
 
 
 def word_abundance(sentences, max_freq = 0.9):

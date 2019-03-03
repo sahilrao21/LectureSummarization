@@ -1,6 +1,7 @@
 from sumy.parsers.plaintext import PlaintextParser
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.summarizers.lex_rank import LexRankSummarizer
+from nltk.tokenize import sent_tokenize
 
 import dl_youtube
 import puncuator
@@ -11,7 +12,9 @@ def lex_rank_summarizer(file, props=0.40):
     summarizer = LexRankSummarizer()
 
     text = open(file, 'r').read()
-    chosen_sentences = summarizer(parser.document, model_utilities.sent_tokenize(text, props))
+    #chosen_sentences = summarizer(parser.document, 20) #model_utilities.summary_length(text, props))
+    #chosen_sentences = summarizer(parser.document, int(len(sent_tokenize(text) * props)))
+    chosen_sentences = summarizer(parser.document, model_utilities.summary_length(text, props))
 
     summary = ""
     for sentence_tuple in chosen_sentences:
