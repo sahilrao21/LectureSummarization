@@ -44,8 +44,8 @@ def transcript():
     with open(file[:-4] + "_sum.txt", "w+") as lex_rank_summary_file:
         print(1)
         lex_rank_summary_file.write(sumy_lex_rank.lex_rank_summarizer(file, the_props))
-    times = video_indices.video_indices(vtt, file[:-4] + "_sum.txt")
-    final = edit_video.edit_summarized_video(video, times)
+    #times = video_indices.video_indices(vtt, file[:-4] + "_sum.txt")
+    #final = edit_video.edit_summarized_video(video, times)
     return render_template("transcript.html")
 
 if __name__ == "__main__":
