@@ -32,9 +32,7 @@ def generate_transcript(file):
 def ignore_descriptions(text, open_and_close_symbols):
     """Taking out information in brackets that are auto-generated."""
     start_index = text.find(open_and_close_symbols[0])
-    print(open_and_close_symbols[0])
     end_index = text.find(open_and_close_symbols[1])
-    print(open_and_close_symbols[1])
 
     if start_index == -1 or end_index == -1:
         return text
@@ -59,14 +57,4 @@ def ignore_names(text):
             break
 
     name = reverse_name[::-1]
-
     return text[:text.find(name)] + ignore_names(text[colon_index + 2:])
-
-def populate_file(transcript):
-    file = open("transcript3.txt", "w+")
-    file.write(transcript)
-    file.close()
-
-
-
-
