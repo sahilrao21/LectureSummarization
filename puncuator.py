@@ -12,7 +12,7 @@ Output:
 Trascript as a Text File including punctuation, in the format video_id.txt
 Returns name of the text file.
 
-ML Model from the Institute of Cybernetics of Tut
+Source: ML Model from the Institute of Cybernetics of Tut
 """
 
 def punctuate_transcript(subtitle):

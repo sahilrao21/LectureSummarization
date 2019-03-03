@@ -6,7 +6,6 @@ rv = check_output('pip install youtube-dl', shell=True)
 if "Requirement already satisfied" in str(rv):
     check_output("pip install --upgrade youtube-dl", shell=True)
 
-
 """
 Downloads the video and associated subtitle, and returns the file name as a tuple
 

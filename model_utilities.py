@@ -32,9 +32,3 @@ def word_abundance(sentences, max_freq = 0.9):
         updated_sentences.append(curr_sent)
 
     return updated_sentences
-
-
-
-
-
-
