@@ -60,7 +60,3 @@ def ignore_names(text):
 
     return text[:text.find(name)] + ignore_names(text[colon_index + 2:])
 
-def populate_file(transcript):
-    file = open("transcript.txt", "w+")
-    file.write(transcript)
-    file.close()
