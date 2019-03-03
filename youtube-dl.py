@@ -1,4 +1,4 @@
-from subprocess import check_output, STDOUT, Popen, PIPE
+from subprocess import check_output, STDOUT
 from os import system
 
 #Update youtube-dl
@@ -6,22 +6,45 @@ rv = check_output('pip install youtube-dl', shell=True)
 if "Requirement already satisfied" in str(rv):
     check_output("pip install --upgrade youtube-dl", shell=True)
 
-#get input
-links = input("Video Links (comma separated):\n\t")
-cookies = input("Cookies Text File Name:\n\t")
-cookies = "cookies.txt" if cookies.lower()=='' else cookies
-flag = input("Download Videos? y/n\n\t")
-flag = True if flag.lower()=='y' else False
-if flag:
-    audio = input("Audio? This will take longer to download y/n:\n\t")
-    audio = '22' if audio.lower() == 'y' else '135'
-links = [x.strip() for x in links.split(',')]
 
-for link in links:
+"""
+Downloads the video and associated subtitle, and returns the file name as a tuple
+link(str): Youtube video link, e.g: https://www.youtube.com/watch?v=zbf3ILq9IJs
+video(False/int): False if don't want video, 22 if want audio, 135 if not
+cookies(str): filename of cookies file. Default is cookies.txt
+"""
+def video_download(link, video, cookies="cookies.txt"):
     # Download Subtitles
-    system('youtube-dl --write-auto-sub --cookies {} --skip-download {}'.format(cookies, link))
+    id = link[link.find("watch?v=") + 8:]
+
+    subtitle = id+".en.vtt"
+    rv = check_output('youtube-dl --write-sub --cookies {} --output "%(id)s.%(ext)s" --skip-download {}'
+                     .format(cookies, link), shell=True, stderr=STDOUT)
+    if "unable to download video subtitles" in str(rv):
+        subtitle = id+"_auto.en.vtt"
+        check_output('youtube-dl --write-auto-sub --cookies {} --output "%(id)s_auto.%(ext)s" --skip-download {}'
+                     .format(cookies, link), shell=True)
     
     # Download Video if user asked for it
-    if flag:
-        system('youtube-dl -f {} --cookies {} {}'.format(audio, cookies, link))
+    if video:
+        system('youtube-dl -f {} --cookies {} --output "%(id)s.%(ext)s" {}'.format(video, cookies, link))
+
+    return (id+".mp4", subtitle) if video else (None, subtitle)
+
+
+
+if __name__=="__main__":
+    # get input
+    links = input("Video Links (comma separated):\n\t")
+    links = [x.strip() for x in links.split(',')]
+    cookies = input("Cookies Text File Name:\n\t")
+    cookies = "cookies.txt" if cookies.lower() == '' else cookies
+    video = input("Download Videos? y/n\n\t")
+    video = True if video.lower() == 'y' else False
+    if video:
+        audio = input("Audio? This will take longer to download y/n:\n\t")
+        video = '22' if audio.lower() == 'y' else '135'
+    for link in links:
+        print(video_download(link, video, cookies))
+
 
