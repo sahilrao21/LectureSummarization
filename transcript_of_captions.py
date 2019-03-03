@@ -10,9 +10,10 @@ def generate_transcript(file):
     captions = sum([c.text.strip().splitlines() for c in vtt], [])
 
     captions_of_lecture = list(map(ignore_descriptions, captions))
-    captions_of_lecture = list(map(ignore_names(), captions))
+    captions_of_lecture = list(map(ignore_names, captions_of_lecture))
     transcript = ""
     prev_cap = ""
+
     for i in range(len(captions_of_lecture)):
         curr_cap = captions_of_lecture[i]
         if i != 0:
@@ -30,12 +31,17 @@ def ignore_descriptions(text):
 
     if start_index == -1 or end_index == -1:
         return text
-    return text[: start_index - 1] + ignore_descriptions(text[end_index + 1:])
+    elif start_index == 0:
+        return ignore_descriptions(text[end_index + 1:])
+    elif start_index == 0 and end_index == len(text) - 1:
+        return ""
+    else:
+        return text[: start_index - 1] + ignore_descriptions(text[end_index + 1:])
 
 def ignore_names(text):
     """Ignore captions that give the name of the speaker."""
     colon_index = text.find(":")
-    print("COL_INDEX", colon_index)
+
     if colon_index == -1 or len(text) <= 1:
         return text
 
@@ -43,15 +49,12 @@ def ignore_names(text):
     for i in range(colon_index):
         reverse_index = colon_index - i - 1
         curr_letter = text[reverse_index]
-        print("index", reverse_index)
-        print("curr_letter", curr_letter)
 
         if curr_letter.isupper() or curr_letter == " ":
             reverse_name += curr_letter
         else:
             break
-        print("reverse_name", reverse_name)
 
     name = reverse_name[::-1]
 
-    return text[:text.find(name)] + ignore_names(text[colon_index + 1:])
+    return text[:text.find(name)] + ignore_names(text[colon_index + 2:])
