@@ -55,6 +55,3 @@ def ignore_names(text):
     name = reverse_name[::-1]
 
     return text[:text.find(name)] + ignore_names(text[colon_index + 1:])
-
-ci = "DAN GARCIA: yes Sahil haha. SAHIL RAO: oh no. jamES CARL: ye"
-print(ignore_names(ci))
