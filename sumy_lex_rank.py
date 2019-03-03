@@ -6,12 +6,12 @@ import dl_youtube
 import puncuator
 import model_utilities
 
-def lex_rank_summarizer(file):
+def lex_rank_summarizer(file, props=0.40):
     parser = PlaintextParser.from_file(file, Tokenizer("english"))
     summarizer = LexRankSummarizer()
 
     text = open(file, 'r').read()
-    chosen_sentences = summarizer(parser.document, model_utilities.summary_length(text, 0.40))
+    chosen_sentences = summarizer(parser.document, model_utilities.sent_tokenize(text, props))
 
     summary = ""
     for sentence_tuple in chosen_sentences:
@@ -26,9 +26,9 @@ def lex_rank_summarizer(file):
     return summary
 
 
-url = "https://www.youtube.com/watch?v=1qy9xVEOI40"
-vtt = dl_youtube.video_download(url, 22)[1]
-file = puncuator.punctuate_transcript(vtt)
-
-with open("lex_rank_summary.txt", "w+") as lex_rank_summary_file:
-    lex_rank_summary_file.write(lex_rank_summarizer(file))
+if __name__ == "__main__":
+    url = "https://www.youtube.com/watch?v=1qy9xVEOI40"
+    vtt = dl_youtube.video_download(url, 22)[1]
+    file = puncuator.punctuate_transcript(vtt)
+    with open(file[:-4]+"_sum.txt", "w+") as lex_rank_summary_file:
+        lex_rank_summary_file.write(lex_rank_summarizer(file))
