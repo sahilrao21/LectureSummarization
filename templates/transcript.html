@@ -11,8 +11,9 @@
     <title>{{ transc }}</title>
   </head>
   <body>
-   <h1>Summarized Lecture found at {{transc}}</a>
-</h1>
+   <video width="320" height="240" controls>
+<source src = "{{ url_for('static', filename = {{final_video}}) }}" type="video/mp4">
+</video>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

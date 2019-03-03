@@ -1,10 +1,26 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, send_from_directory
 import dl_youtube, os
 from puncuator import punctuate_transcript
 import sumy_lex_rank, video_indices, edit_video
 
-
+# static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'static')
 app = Flask(__name__)
+
+
+# @app.route('/dir', methods=['GET'])
+# def serve_dir_directory_index():
+#     return send_from_directory(static_file_dir, 'index.html')
+#
+#
+# @app.route('/dir/<path:path>', methods=['GET'])
+# def serve_file_in_dir(path):
+#     if not os.path.isfile(os.path.join(static_file_dir, path)):
+#         path = os.path.join(path, 'index.html')
+#
+#     return send_from_directory(static_file_dir, path)
+#
+#
+
 
 class Summarization():
     the_link = None
@@ -41,7 +57,7 @@ def transcript():
     times = video_indices.video_indices(vtt, file[:-4] + "_sum.txt")
     print('Rendering Video')
     final = edit_video.edit_summarized_video(video, times)
-    return render_template("transcript.html")
+    return render_template("transcript.html", final_video=final)
 
 if __name__ == "__main__":
     app.run(debug=True)
