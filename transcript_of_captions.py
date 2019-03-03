@@ -8,15 +8,15 @@ def generate_transcript(file):
 
     vtt = webvtt.read(file)
     captions = sum([c.text.strip().splitlines() for c in vtt], [])
-    print(captions)
-    captions_without_descrip = list(map(ignore_descriptions, captions))
-    print(captions_without_descrip)
+
+    captions_of_lecture = list(map(ignore_descriptions, captions))
+    captions_of_lecture = list(map(ignore_names(), captions))
     transcript = ""
     prev_cap = ""
-    for i in range(len(captions_without_descrip)):
-        curr_cap = captions_without_descrip[i]
+    for i in range(len(captions_of_lecture)):
+        curr_cap = captions_of_lecture[i]
         if i != 0:
-            prev_cap = captions_without_descrip[i - 1]
+            prev_cap = captions_of_lecture[i - 1]
 
         if prev_cap != curr_cap:
             transcript += curr_cap + " "
@@ -55,3 +55,6 @@ def ignore_names(text):
     name = reverse_name[::-1]
 
     return text[:text.find(name)] + ignore_names(text[colon_index + 1:])
+
+ci = "DAN GARCIA: yes Sahil haha. SAHIL RAO: oh no. jamES CARL: ye"
+print(ignore_names(ci))
