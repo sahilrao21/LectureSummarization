@@ -10,7 +10,7 @@ tolerance is the difference (in seconds) between two sequential timestamp tuples
 
 Output: List of timestamp tuples (start, end) for the summarized video
 """
-def video_indices(subtitle, text_summary, tolerance):
+def video_indices(subtitle, text_summary, tolerance=0):
     text_summary = open(text_summary, "r").read()
     sents = [word_tokenize(s.lower()) for s in sent_tokenize(text_summary)]
     captions = webvtt.read(subtitle)
@@ -32,7 +32,7 @@ def video_indices(subtitle, text_summary, tolerance):
                         break
                 cuttimes.append([start, end])
                 break
-    print(cuttimes)
+    return cuttimes
     # for caption in webvtt.read(subtitle)[:100]:
     #     print(caption.start)
     #     print(caption.text)
@@ -44,5 +44,5 @@ def filter_captext(captext):
         return filter_captext(captext)
     return captext
 
-if __name__ == "__main__":
-    video_indices("1qy9xVEOI40_auto.en.vtt","1qy9xVEOI40_sum.txt")
+# if __name__ == "__main__":
+#     video_indices("1qy9xVEOI40_auto.en.vtt","1qy9xVEOI40_sum.txt")

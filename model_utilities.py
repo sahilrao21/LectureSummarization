@@ -2,9 +2,9 @@ from nltk.tokenize import sent_tokenize
 from nltk.corpus import stopwords
 from string import punctuation
 
-def summary_length(text, n = 0.33):
+def summary_length(text, n):
     num_of_sentences = len(sent_tokenize(text))
-    return int(n * num_of_sentences)
+    return n * num_of_sentences
 
 
 def word_abundance(sentences, max_freq = 0.9):

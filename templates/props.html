@@ -11,19 +11,20 @@
     <title>Lecture Summarizer</title>
   </head>
   <body>
-    <form id="forms" action="/props" method="post">
-  <div class="form-group" style="margin: 225px 50px 50px 100px;width:80%;text-align:left">
-    <label for="videobar" style="text-align: center">Video Summarizer</label>
-    <input type="search" name="link" class="form-control" id="videobar" placeholder="Enter video to summarize it">
+    <form id="forms" action="/transcript" method="post">
+  <!--<div class="form-group" style="margin: 225px 50px 50px 100px;width:80%;text-align:left">-->
+    <!--<label for="videobar" style="text-align: center">Video Summarizer</label>-->
+    <!--<input type="search" name="link" class="form-control" id="videobar" placeholder="Enter video to summarize it">-->
     <!--<small id="emailHelp" class="form-text text-muted"></small>-->
-  </div>
-  <!--<div class="d-flex justify-content-start">-->
-  <!--<div class="form-group" style="margin: -25px 50px 50px 100px;width:30%;text-align:left">-->
-    <!--<label for="propbar" style="text-align: center">Lecture Proportion</label>-->
-    <!--<input type="search" name="proportion" class="form-control" id="propbar" placeholder="Pick a value from 0.33 to 1.0">-->
   <!--</div>-->
-        <button type="submit" class="btn btn-outline-dark btn-lg" style="margin:0px 50px 50px 100px;"><a href="{{ url_for('props') }}"></a>Submit!</button>
+  <div class="d-flex justify-content-start">
+  <div class="form-group" style="margin: -25px 50px 50px 100px;width:30%;text-align:left">
+    <label for="propbar" style="text-align: center">Lecture Proportion</label>
+    <input type="search" name="proportion" class="form-control" id="propbar" placeholder="Pick a value from 0.33 to 1.0">
+  </div>
+        <button type="submit" class="btn btn-outline-dark btn-lg" style="margin:0px 50px 50px 100px;"><a href="{{ url_for('transcript') }}"></a>Submit!</button>
     <!--</div>-->
+
     </form>
 
     <!-- Optional JavaScript -->
