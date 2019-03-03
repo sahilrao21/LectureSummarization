@@ -7,7 +7,6 @@ def summary_length(text, n):
 
     return int(n * num_of_sentences)
 
-
 def word_abundance(sentences, max_freq = 0.9):
     word_counts = {}
     over_freqs = []
