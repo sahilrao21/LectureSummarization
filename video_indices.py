@@ -25,6 +25,7 @@ def video_indices(subtitle, text_summary, tolerance=0):
             if beg in captext:
                 start = caption.start
                 break
+
         for coption in coptions:
             captext = coption.text.replace("\n", " ")
             captext = filter_captext(captext)
@@ -80,6 +81,10 @@ def time_in_s(clip):
         e+=float(end[i])*pow(60, 2-i)
     return s, e
 
+    return cuttimes
+    # for caption in webvtt.read(subtitle)[:100]:
+    #     print(caption.start)
+    #     print(caption.text)
 
 def filter_captext(captext):
     apos = captext.find("'")
@@ -99,3 +104,5 @@ if __name__ == "__main__":
         print(e-s)
     print(count)
     print(total_time(cuttimes))
+# if __name__ == "__main__":
+#     video_indices("1qy9xVEOI40_auto.en.vtt","1qy9xVEOI40_sum.txt")
