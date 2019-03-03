@@ -25,7 +25,7 @@ def video_download(link, video, cookies="cookies.txt"):
     subtitle = linkid+".en.vtt"
     rv = check_output('youtube-dl --write-sub --cookies {} --output "%(id)s.%(ext)s" --skip-download {}'
                      .format(cookies, link), shell=True, stderr=STDOUT)
-    if "unable to download video subtitles" in str(rv):
+    if "warning" in str(rv).lower():
         subtitle = linkid+"_auto.en.vtt"
         check_output('youtube-dl --write-auto-sub --cookies {} --output "%(id)s_auto.%(ext)s" --skip-download {}'
                      .format(cookies, link), shell=True)
