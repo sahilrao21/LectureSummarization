@@ -33,18 +33,3 @@ def video_download(link, video, cookies="cookies.txt"):
 
 
 
-if __name__=="__main__":
-    # get input
-    links = input("Video Links (comma separated):\n\t")
-    links = [x.strip() for x in links.split(',')]
-    cookies = input("Cookies Text File Name:\n\t")
-    cookies = "cookies.txt" if cookies.lower() == '' else cookies
-    video = input("Download Videos? y/n\n\t")
-    video = True if video.lower() == 'y' else False
-    if video:
-        audio = input("Audio? This will take longer to download y/n:\n\t")
-        video = '22' if audio.lower() == 'y' else '135'
-    for link in links:
-        print(video_download(link, video, cookies))
-
-
