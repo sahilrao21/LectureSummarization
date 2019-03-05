@@ -27,13 +27,11 @@ def video_indices(subtitle, text_summary, tolerance=0):
                         continue
                     captext = cap.text.replace("\n", " ")
                     captext = filter_captext(captext)
-                    end = None
                     if last in captext:
                         end = caption.end
                         break
-                if start and end:
-                    timestamp = [start, end]
-                    cuttimes.append([min(timestamp, key=time_for_one), max(timestamp, key=time_for_one)])
+                timestamp = [start, end]
+                cuttimes.append([min(timestamp, key=time_for_one), max(timestamp, key=time_for_one)])
                 break
     return cutttimes_filter(cuttimes, 10, 1000)
 
